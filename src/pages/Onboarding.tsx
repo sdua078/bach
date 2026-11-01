@@ -1,6 +1,7 @@
 import { AnimatePresence, m } from 'motion/react'
 import { useState } from 'react'
 import { Field, MoneyInput, parseMoney } from '../components/form'
+import { LanguageToggle } from '../components/LanguageToggle'
 import { Group, spring } from '../components/ui'
 import { saveTaxYear, updateSettings } from '../db/repo'
 import { useI18n } from '../i18n'
@@ -34,7 +35,10 @@ export function Onboarding({ disclaimerAccepted }: { disclaimerAccepted: boolean
           {step === 'disclaimer' ? (
             <>
               <div className="flex-1 pt-16 md:flex-none md:pt-0 md:pb-10">
-                <p className="text-[17px] font-semibold text-accent">{t.appName}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-[17px] font-semibold text-accent">{t.appName}</p>
+                  <LanguageToggle />
+                </div>
                 <h1 className="mt-2 text-[34px] leading-[41px] font-bold tracking-tight">{t.disclaimer.title}</h1>
                 <div className="mt-6 space-y-4 text-[17px] leading-[24px] text-label-2">
                   {t.disclaimer.body.map((p) => (

@@ -2,6 +2,7 @@ import { CircleEllipsis, House, LayoutDashboard, Plus, Receipt, Settings, Wallet
 import { m } from 'motion/react'
 import { NavLink } from 'react-router'
 import { useI18n } from '../i18n'
+import { LanguageToggle } from './LanguageToggle'
 import { platform } from '../platform'
 import { spring } from './ui'
 
@@ -84,6 +85,9 @@ export function Sidebar() {
         ))}
       </nav>
       <div className="mt-auto space-y-3">
+        <div className="px-2.5">
+          <LanguageToggle />
+        </div>
         <NavLink to="/more/settings" className={link}>
           <Settings className="size-[18px]" strokeWidth={1.75} />
           {t.more.settings}
