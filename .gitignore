@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Private: local agent config and project notes
+CLAUDE.md
+.claude/
+.agents/
+skills-lock.json
