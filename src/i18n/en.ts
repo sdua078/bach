@@ -18,6 +18,8 @@ export const en = {
     taxYear: (year: string) => `Tax year ${year}`,
     unsupportedYear: 'This tax year is not supported yet. Bach currently covers 1 Apr 2026 – 31 Mar 2027.',
     invalidAmount: 'Enter an amount',
+    total: 'Total',
+    add: 'Add',
   },
   disclaimer: {
     short: 'Estimates only. Not tax advice. IRD’s own calculation is what counts.',
@@ -69,6 +71,10 @@ export const en = {
     installNudge: 'Add Bach to your Home Screen so your data is kept safe on this device.',
     installHow: 'In Safari, tap Share, then “Add to Home Screen”.',
     dismiss: 'Dismiss',
+    installNudgeDesktop: 'Install Bach as an app so your data is kept safe in this browser.',
+    installHowDesktop: 'Chrome / Edge: click the install icon in the address bar. Safari on Mac: File → Add to Dock.',
+    deadlines: 'Deadlines',
+    salary: 'Salary',
   },
   income: {
     title: 'Income',
@@ -84,6 +90,9 @@ export const en = {
     suggestion: (amount: string) => `Suggest moving ${amount} to your tax account`,
     noSuggestion: 'Nothing extra to set aside for this one',
     setAsideShort: (amount: string) => `${amount} set aside`,
+    suggestedShort: (amount: string) => `Suggest ${amount}`,
+    quickHint: 'Type the amount and press Enter. Leave “Moved to tax account” blank to use the suggestion.',
+    taxSetAsideShort: 'Set aside',
   },
   expenses: {
     title: 'Expenses',
@@ -98,6 +107,9 @@ export const en = {
     businessUseInfo:
       'Only the share used to earn side income is deductible. Your full-time job and personal use don’t count.',
     deductible: (amount: string) => `${amount} deductible`,
+    deductibleCol: 'Deductible',
+    businessUseShort: 'Side use',
+    quickHint: 'Fill in a row and press Enter. Side-use % remembers what you last used for each category.',
     categories: {
       equipment: 'Small equipment',
       software: 'Software & subscriptions',

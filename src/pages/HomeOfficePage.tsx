@@ -7,6 +7,7 @@ import { getHomeOffice, saveHomeOffice } from '../db/repo'
 import type { HomeOffice } from '../db/schema'
 import { useI18n } from '../i18n'
 import { currentTaxYear } from '../lib/taxYear'
+import { useIsDesktop } from '../lib/useIsDesktop'
 
 const EMPTY = (taxYear: string): HomeOffice => ({
   taxYear,
@@ -28,7 +29,7 @@ export function HomeOfficePage() {
   const loaded = useLiveQuery(async () => ({ value: await getHomeOffice(taxYear) }), [taxYear])
 
   return (
-    <Page title={t.homeOffice.title} subtitle={t.common.taxYear(taxYear)} back={{ to: '/more', label: t.more.title }}>
+    <Page title={t.homeOffice.title} subtitle={`${t.common.taxYear(taxYear)} · ${t.homeOffice.intro}`} back={{ to: '/more', label: t.more.title }} wide>
       {loaded && <HomeOfficeForm initial={loaded.value ?? EMPTY(taxYear)} />}
     </Page>
   )
@@ -68,18 +69,10 @@ function HomeOfficeForm({ initial }: { initial: HomeOffice }) {
   }
 
   const r = homeOfficeDeduction(h)
+  const desktop = useIsDesktop()
 
-  return (
-    <>
-      <Footnote>{t.homeOffice.intro}</Footnote>
-
-      <Group header={t.homeOffice.result} footer={r.rentCapped ? t.homeOffice.rentCapped : undefined}>
-        <Row label={t.homeOffice.rentLine} detail={money(r.rent)} />
-        <Row label={t.homeOffice.utilitiesLine} detail={money(r.utilities)} />
-        <Row label={t.homeOffice.internetLine} detail={money(r.internet)} />
-        <Row label={<span className="font-semibold">{t.homeOffice.total}</span>} detail={<span className="font-semibold text-accent">{money(r.total)}</span>} />
-      </Group>
-
+  const inputs = (
+    <div className="space-y-8">
       <Group header={t.homeOffice.rent}>
         <Field label={t.homeOffice.weeklyRent}>
           <MoneyInput value={text.weeklyRent} onChange={money$('weeklyRent')} />
@@ -89,7 +82,6 @@ function HomeOfficeForm({ initial }: { initial: HomeOffice }) {
         </Field>
         <PercentSlider label={t.homeOffice.rentShareBorne} value={h.rentShareBorne} onChange={(v) => update({ rentShareBorne: v })} />
       </Group>
-
       <Group header={t.homeOffice.space}>
         <Field label={t.homeOffice.totalArea}>
           <TextInput inputMode="decimal" placeholder="0" value={text.totalArea} onChange={(e) => number$('totalArea')(e.target.value)} />
@@ -99,7 +91,6 @@ function HomeOfficeForm({ initial }: { initial: HomeOffice }) {
         </Field>
         <PercentSlider label={t.homeOffice.businessTimeShare} value={h.businessTimeShare} onChange={(v) => update({ businessTimeShare: v })} />
       </Group>
-
       <Group header={t.homeOffice.bills} footer={t.homeOffice.internetNote}>
         <Field label={t.homeOffice.utilitiesTotal}>
           <MoneyInput value={text.utilitiesTotal} onChange={money$('utilitiesTotal')} />
@@ -113,10 +104,36 @@ function HomeOfficeForm({ initial }: { initial: HomeOffice }) {
           onChange={(v) => update({ internetBusinessShare: v })}
         />
       </Group>
-
+    </div>
+  )
+  const results = (
+    <div className="space-y-8 md:sticky md:top-10">
+      <Group header={t.homeOffice.result} footer={r.rentCapped ? t.homeOffice.rentCapped : undefined}>
+        <Row label={t.homeOffice.rentLine} detail={money(r.rent)} />
+        <Row label={t.homeOffice.utilitiesLine} detail={money(r.utilities)} />
+        <Row label={t.homeOffice.internetLine} detail={money(r.internet)} />
+        <Row label={<span className="font-semibold">{t.homeOffice.total}</span>} detail={<span className="font-semibold text-accent">{money(r.total)}</span>} />
+      </Group>
       <Group header={t.homeOffice.howTitle} footer={t.homeOffice.coupleNote}>
         <p className="py-3 pr-4 text-[15px] leading-5 text-label-2">{t.homeOffice.how(percent(r.areaShare), percent(r.weekShare))}</p>
       </Group>
+    </div>
+  )
+
+  return (
+    <>
+      {!desktop && <Footnote>{t.homeOffice.intro}</Footnote>}
+      {desktop ? (
+        <div className="grid grid-cols-2 items-start gap-8">
+          {inputs}
+          {results}
+        </div>
+      ) : (
+        <>
+          {results}
+          {inputs}
+        </>
+      )}
     </>
   )
 }

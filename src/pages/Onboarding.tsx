@@ -20,7 +20,8 @@ export function Onboarding({ disclaimerAccepted }: { disclaimerAccepted: boolean
   }
 
   return (
-    <div className="pt-safe mx-auto flex min-h-dvh max-w-md flex-col px-6 pb-[calc(env(safe-area-inset-bottom)+24px)]">
+    <div className="md:flex md:min-h-dvh md:items-center md:justify-center">
+    <div className="pt-safe mx-auto flex min-h-dvh max-w-md flex-col px-6 pb-[calc(env(safe-area-inset-bottom)+24px)] md:min-h-0 md:w-[440px] md:rounded-[16px] md:bg-card md:px-10 md:py-10 md:shadow-[0_0_0_0.5px_var(--separator),0_20px_50px_rgb(0_0_0/0.08)]">
       <AnimatePresence mode="wait">
         <m.div
           key={step}
@@ -32,7 +33,7 @@ export function Onboarding({ disclaimerAccepted }: { disclaimerAccepted: boolean
         >
           {step === 'disclaimer' ? (
             <>
-              <div className="flex-1 pt-16">
+              <div className="flex-1 pt-16 md:flex-none md:pt-0 md:pb-10">
                 <p className="text-[17px] font-semibold text-accent">{t.appName}</p>
                 <h1 className="mt-2 text-[34px] leading-[41px] font-bold tracking-tight">{t.disclaimer.title}</h1>
                 <div className="mt-6 space-y-4 text-[17px] leading-[24px] text-label-2">
@@ -58,7 +59,7 @@ export function Onboarding({ disclaimerAccepted }: { disclaimerAccepted: boolean
                 void finish()
               }}
             >
-              <div className="flex-1 pt-16">
+              <div className="flex-1 pt-16 md:flex-none md:pt-0 md:pb-10">
                 <h1 className="text-[34px] leading-[41px] font-bold tracking-tight">{t.onboarding.salaryTitle}</h1>
                 <p className="mt-3 mb-8 text-[17px] leading-[24px] text-label-2">{t.onboarding.salaryBody}</p>
                 <Group>
@@ -74,6 +75,7 @@ export function Onboarding({ disclaimerAccepted }: { disclaimerAccepted: boolean
           )}
         </m.div>
       </AnimatePresence>
+    </div>
     </div>
   )
 }

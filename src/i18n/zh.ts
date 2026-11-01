@@ -19,6 +19,8 @@ export const zh: Messages = {
     taxYear: (year: string) => `${year} 税年`,
     unsupportedYear: '暂不支持这个税年。Bach 目前只支持 2026 年 4 月 1 日至 2027 年 3 月 31 日。',
     invalidAmount: '请输入金额',
+    total: '合计',
+    add: '添加',
   },
   disclaimer: {
     short: '仅为估算，不构成税务建议，以 IRD 实际计算为准。',
@@ -69,6 +71,10 @@ export const zh: Messages = {
     installNudge: '把 Bach 添加到主屏幕，数据才能在这台设备上长期保存。',
     installHow: '在 Safari 里点"分享"，再选"添加到主屏幕"。',
     dismiss: '关闭',
+    installNudgeDesktop: '把 Bach 安装成 app，数据才能在这个浏览器里长期保存。',
+    installHowDesktop: 'Chrome / Edge：点地址栏右边的安装图标。Mac 上的 Safari：菜单 文件 → 添加到程序坞。',
+    deadlines: '截止日',
+    salary: '工资',
   },
   income: {
     title: '收入',
@@ -84,6 +90,9 @@ export const zh: Messages = {
     suggestion: (amount: string) => `建议转 ${amount} 到存税账户`,
     noSuggestion: '这笔不用额外存',
     setAsideShort: (amount: string) => `已存 ${amount}`,
+    suggestedShort: (amount: string) => `建议 ${amount}`,
+    quickHint: '填好金额按回车就记一笔。"已存税"留空则按建议值记录。',
+    taxSetAsideShort: '已存税',
   },
   expenses: {
     title: '开支',
@@ -97,6 +106,9 @@ export const zh: Messages = {
     businessUse: '副业使用比例',
     businessUseInfo: '只有用于赚副业收入的那部分可以抵扣。全职工作和私人使用的部分都不算。',
     deductible: (amount: string) => `可抵扣 ${amount}`,
+    deductibleCol: '可抵扣',
+    businessUseShort: '副业比例',
+    quickHint: '填好一行按回车保存。副业比例会记住每个类别上一次填的值。',
     categories: {
       equipment: '小型设备',
       software: '软件 / 订阅',

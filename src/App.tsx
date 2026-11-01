@@ -1,10 +1,11 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { lazy, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router'
-import { TabBar } from './components/TabBar'
+import { Sidebar, TabBar } from './components/TabBar'
 import { ToastProvider } from './components/toast'
 import { getSettings } from './db/repo'
 import { I18nProvider } from './i18n'
+import { useIsDesktop } from './lib/useIsDesktop'
 import { ExpensesPage } from './pages/ExpensesPage'
 import { IncomePage } from './pages/IncomePage'
 import { MorePage } from './pages/MorePage'
@@ -17,11 +18,14 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ de
 
 function Shell() {
   const settings = useLiveQuery(getSettings)
+  const desktop = useIsDesktop()
   if (!settings) return null // first IndexedDB read, a few ms
   if (!settings.onboarded) return <Onboarding disclaimerAccepted={settings.disclaimerAccepted} />
 
   return (
     <HashRouter>
+      {desktop && <Sidebar />}
+      <main className={desktop ? 'ml-56' : ''}>
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<SummaryPage />} />
@@ -33,7 +37,8 @@ function Shell() {
           <Route path="*" element={<SummaryPage />} />
         </Routes>
       </Suspense>
-      <TabBar />
+      </main>
+      {!desktop && <TabBar />}
     </HashRouter>
   )
 }

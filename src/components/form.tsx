@@ -1,8 +1,9 @@
 import { Drawer } from 'vaul'
 import type { InputHTMLAttributes, ReactNode } from 'react'
 import { useI18n } from '../i18n'
+import { useIsDesktop } from '../lib/useIsDesktop'
 
-/** Bottom sheet for adding / editing. Swipe down or tap outside to dismiss. */
+/** Bottom sheet on phones, right-hand panel on desktop. Swipe / Esc / click outside to dismiss. */
 export function Sheet({
   open,
   onOpenChange,
@@ -19,12 +20,19 @@ export function Sheet({
   children: ReactNode
 }) {
   const { t } = useI18n()
+  const desktop = useIsDesktop()
   return (
-    <Drawer.Root open={open} onOpenChange={onOpenChange} repositionInputs={false}>
+    <Drawer.Root open={open} onOpenChange={onOpenChange} repositionInputs={false} direction={desktop ? 'right' : 'bottom'}>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-black/40" />
-        <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[94dvh] max-w-2xl flex-col rounded-t-[12px] bg-bg outline-none">
-          <div className="mx-auto mt-2 h-[5px] w-9 shrink-0 rounded-full bg-label-3" />
+        <Drawer.Overlay className={`fixed inset-0 z-40 ${desktop ? 'bg-black/15' : 'bg-black/40'}`} />
+        <Drawer.Content
+          className={
+            desktop
+              ? 'fixed inset-y-2 right-2 z-50 flex w-[440px] flex-col rounded-[12px] bg-bg shadow-2xl outline-none'
+              : 'fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[94dvh] max-w-2xl flex-col rounded-t-[12px] bg-bg outline-none'
+          }
+        >
+          {!desktop && <div className="mx-auto mt-2 h-[5px] w-9 shrink-0 rounded-full bg-label-3" />}
           <form
             className="flex min-h-0 flex-1 flex-col"
             onSubmit={(e) => {
@@ -60,14 +68,14 @@ export function Sheet({
 export function Field({ label, children }: { label: ReactNode; children: ReactNode }) {
   return (
     <label className="flex min-h-11 items-center gap-3 py-1.5 pr-4">
-      <span className="shrink-0 text-[17px]">{label}</span>
+      <span className="shrink-0 text-[17px] md:text-[15px]">{label}</span>
       <span className="flex min-w-0 flex-1 justify-end">{children}</span>
     </label>
   )
 }
 
 const inputClass =
-  'num w-full min-w-0 bg-transparent text-right text-[17px] text-label-2 outline-none placeholder:text-label-3 focus:text-label'
+  'num w-full min-w-0 bg-transparent text-right text-[17px] md:text-[15px] text-label-2 outline-none placeholder:text-label-3 focus:text-label'
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${inputClass} ${props.className ?? ''}`} />
@@ -110,8 +118,8 @@ export function PercentSlider({ value, onChange, label }: { value: number; onCha
   return (
     <div className="py-3 pr-4">
       <div className="flex items-baseline justify-between">
-        <span className="text-[17px]">{label}</span>
-        <span className="num text-[17px] font-semibold text-accent">{pct}%</span>
+        <span className="text-[17px] md:text-[15px]">{label}</span>
+        <span className="num text-[17px] font-semibold text-accent md:text-[15px]">{pct}%</span>
       </div>
       <input
         type="range"

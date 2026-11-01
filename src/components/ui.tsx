@@ -2,22 +2,44 @@ import { Info, ChevronRight } from 'lucide-react'
 import { AnimatePresence, m } from 'motion/react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router'
+import { useIsDesktop } from '../lib/useIsDesktop'
 
 /** iOS spring used everywhere. */
 export const spring = { type: 'spring', stiffness: 420, damping: 38, mass: 0.9 } as const
 
-/** Large title that hands over to a compact centered title in a frosted bar once scrolled past. */
-export function Page({
-  title,
-  subtitle,
-  back,
-  children,
-}: {
+interface PageProps {
   title: string
   subtitle?: string
   back?: { to: string; label: string }
+  /** Buttons shown at the right of the title on desktop. */
+  actions?: ReactNode
+  /** Desktop content width. */
+  wide?: boolean
   children: ReactNode
-}) {
+}
+
+export function Page(props: PageProps) {
+  return useIsDesktop() ? <DesktopPage {...props} /> : <MobilePage {...props} />
+}
+
+/** Mac-style: plain title row with actions; the sidebar handles navigation. */
+function DesktopPage({ title, subtitle, actions, wide, children }: PageProps) {
+  return (
+    <div className={`mx-auto px-10 pt-10 pb-16 ${wide ? 'max-w-6xl' : 'max-w-4xl'}`}>
+      <header className="mb-8 flex items-end justify-between gap-6">
+        <div>
+          <h1 className="text-[28px] leading-[34px] font-bold tracking-tight">{title}</h1>
+          {subtitle && <p className="mt-0.5 text-[14px] text-label-2">{subtitle}</p>}
+        </div>
+        {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+      </header>
+      <div className="space-y-8">{children}</div>
+    </div>
+  )
+}
+
+/** Large title that hands over to a compact centered title in a frosted bar once scrolled past. */
+function MobilePage({ title, subtitle, back, children }: PageProps) {
   const sentinel = useRef<HTMLDivElement>(null)
   const [compact, setCompact] = useState(false)
 
@@ -62,12 +84,42 @@ export function Page({
   )
 }
 
+/** Mac-style push button. */
+export function Button({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'secondary',
+  disabled,
+}: {
+  children: ReactNode
+  onClick?: () => void
+  type?: 'button' | 'submit'
+  variant?: 'primary' | 'secondary'
+  disabled?: boolean
+}) {
+  const look =
+    variant === 'primary'
+      ? 'bg-accent text-white hover:brightness-110'
+      : 'bg-card text-label shadow-[0_0_0_0.5px_var(--separator),0_1px_2px_rgb(0_0_0/0.06)] hover:bg-card-pressed'
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex h-8 items-center gap-1.5 rounded-[7px] px-3.5 text-[14px] font-medium transition active:scale-[0.98] disabled:opacity-40 ${look}`}
+    >
+      {children}
+    </button>
+  )
+}
+
 /** Inset grouped section, as in the iOS Settings app. */
 export function Group({ header, footer, children }: { header?: ReactNode; footer?: ReactNode; children: ReactNode }) {
   return (
     <section>
       {header && <h2 className="mb-1.5 px-4 text-[13px] text-label-2 uppercase">{header}</h2>}
-      <div className="divide-y-[0.5px] divide-separator overflow-hidden rounded-[10px] bg-card [&>*]:ml-4">
+      <div className="divide-y-[0.5px] divide-separator overflow-hidden rounded-[10px] bg-card md:rounded-[12px] md:shadow-[0_0_0_0.5px_var(--separator)] [&>*]:ml-4">
         {children}
       </div>
       {footer && <p className="mt-1.5 px-4 text-[13px] leading-[18px] text-label-2">{footer}</p>}
@@ -94,10 +146,10 @@ export function Row({
   const body = (
     <div className="flex min-h-11 items-center gap-3 py-2.5 pr-4">
       <div className="min-w-0 flex-1">
-        <div className={`truncate text-[17px] ${color}`}>{label}</div>
+        <div className={`truncate text-[17px] md:text-[15px] ${color}`}>{label}</div>
         {sub && <div className="truncate text-[13px] text-label-2">{sub}</div>}
       </div>
-      {detail !== undefined && <div className="num shrink-0 text-right text-[17px] text-label-2">{detail}</div>}
+      {detail !== undefined && <div className="num shrink-0 text-right text-[17px] text-label-2 md:text-[15px]">{detail}</div>}
       {to && <ChevronRight className="size-5 shrink-0 text-label-3" strokeWidth={2} />}
     </div>
   )

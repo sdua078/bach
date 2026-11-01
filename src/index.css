@@ -11,6 +11,7 @@
   --separator: rgb(60 60 67 / 0.29);
   --fill: rgb(120 120 128 / 0.12);
   --bar: rgb(249 249 249 / 0.8);
+  --sidebar: #e9e9ee;
   --accent: #0f8b8d;
   --accent-soft: rgb(15 139 141 / 0.12);
   --red: #ff3b30;
@@ -31,6 +32,7 @@
     --separator: rgb(84 84 88 / 0.6);
     --fill: rgb(118 118 128 / 0.24);
     --bar: rgb(22 22 23 / 0.8);
+    --sidebar: #161618;
     --accent: #2fb5b7;
     --accent-soft: rgb(47 181 183 / 0.18);
     --red: #ff453a;
@@ -51,6 +53,7 @@
   --color-separator: var(--separator);
   --color-fill: var(--fill);
   --color-bar: var(--bar);
+  --color-sidebar: var(--sidebar);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-red: var(--red);
@@ -76,21 +79,23 @@ body {
   min-height: 100dvh;
 }
 
-/* iOS zooms into inputs smaller than 16px. */
-input,
-select,
-textarea {
-  font-size: 17px;
+/* iOS zooms into inputs smaller than 16px. Layered so utility classes can still override. */
+@layer base {
+  input,
+  select,
+  textarea {
+    font-size: 17px;
+  }
 }
 
-.num {
+@utility num {
   font-variant-numeric: tabular-nums;
 }
 
-.pt-safe {
+@utility pt-safe {
   padding-top: env(safe-area-inset-top);
 }
 
-.pb-tabbar {
+@utility pb-tabbar {
   padding-bottom: calc(env(safe-area-inset-bottom) + 96px);
 }

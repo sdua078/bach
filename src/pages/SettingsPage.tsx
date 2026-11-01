@@ -18,11 +18,17 @@ export function SettingsPage() {
   const year = useLiveQuery(() => getTaxYear(taxYear), [taxYear])
 
   return (
-    <Page title={t.settings.title} back={{ to: '/more', label: t.more.title }}>
-      {year && <TaxSettings year={year} />}
-      <LanguageSettings />
-      <DataSettings />
-      <About />
+    <Page title={t.settings.title} back={{ to: '/more', label: t.more.title }} wide>
+      <div className="space-y-8 md:grid md:grid-cols-2 md:items-start md:gap-8 md:space-y-0">
+        <div className="space-y-8">
+          {year && <TaxSettings year={year} />}
+          <LanguageSettings />
+        </div>
+        <div className="space-y-8">
+          <DataSettings />
+          <About />
+        </div>
+      </div>
     </Page>
   )
 }
