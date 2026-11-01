@@ -91,7 +91,7 @@ export const zh: Messages = {
     noSuggestion: '这笔不用额外存',
     setAsideShort: (amount: string) => `已存 ${amount}`,
     suggestedShort: (amount: string) => `建议 ${amount}`,
-    quickHint: '填好金额按回车就记一笔。"已存税"留空则按建议值记录。',
+    quickHint: '填好金额按回车就记一笔。"已存税"填你实际转了多少，留空记为 $0。',
     taxSetAsideShort: '已存税',
   },
   expenses: {

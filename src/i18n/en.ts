@@ -91,7 +91,7 @@ export const en = {
     noSuggestion: 'Nothing extra to set aside for this one',
     setAsideShort: (amount: string) => `${amount} set aside`,
     suggestedShort: (amount: string) => `Suggest ${amount}`,
-    quickHint: 'Type the amount and press Enter. Leave “Moved to tax account” blank to use the suggestion.',
+    quickHint: 'Type the amount and press Enter. “Set aside” is what you actually moved — leave it blank for $0.',
     taxSetAsideShort: 'Set aside',
   },
   expenses: {

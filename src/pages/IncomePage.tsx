@@ -88,7 +88,8 @@ function IncomeTable({ taxYear, incomes, onEdit }: { taxYear: string; incomes: I
       source: (source ?? settings.lastIncomeSource).trim(),
       nzdReceived: nzdCents,
       platformFees: 0,
-      taxSetAside: parseMoney(setAside) ?? suggestion ?? 0,
+      // Only what the user actually moved counts; the suggestion is a hint, never a default.
+      taxSetAside: parseMoney(setAside) ?? 0,
       note: '',
     })
     // Keep date and source: batch entry from a statement usually repeats them.
@@ -147,7 +148,7 @@ function IncomeTable({ taxYear, incomes, onEdit }: { taxYear: string; incomes: I
             <td className="px-2 py-2">
               <CellInput
                 inputMode="decimal"
-                placeholder={suggestion !== undefined ? t.income.suggestedShort(money(suggestion)) : '—'}
+                placeholder="$0.00"
                 value={setAside}
                 onChange={(e) => setSetAside(e.target.value.replace(/[^\d.,]/g, ''))}
                 className="num text-right"
@@ -205,7 +206,7 @@ function IncomeSheet({ taxYear, editing, onClose }: { taxYear: string; editing: 
   const [usd, setUsd] = useState(centsToInput(editing?.foreignAmount))
   const [fees, setFees] = useState(centsToInput(editing?.platformFees))
   const [note, setNote] = useState(editing?.note ?? '')
-  const [setAside, setSetAside] = useState<string | null>(editing ? centsToInput(editing.taxSetAside) : null)
+  const [setAside, setSetAside] = useState(centsToInput(editing?.taxSetAside))
   const [showMore, setShowMore] = useState(Boolean(editing && (editing.foreignAmount || editing.platformFees || editing.note)))
 
   const nzdCents = parseMoney(nzd)
@@ -218,8 +219,6 @@ function IncomeSheet({ taxYear, editing, onClose }: { taxYear: string; editing: 
     return suggestSetAside(others, { date: entryDate, nzdReceived: nzdCents, platformFees: feeCents })
   }, [summaryInput, nzdCents, feeCents, entryDate, editing?.id])
 
-  // Until the user types their own figure, "moved to tax account" follows the suggestion.
-  const setAsideText = setAside ?? centsToInput(suggestion)
 
   const save = async () => {
     if (nzdCents === undefined || !dateOk) return
@@ -229,7 +228,7 @@ function IncomeSheet({ taxYear, editing, onClose }: { taxYear: string; editing: 
       source: source.trim(),
       nzdReceived: nzdCents,
       platformFees: feeCents,
-      taxSetAside: parseMoney(setAsideText) ?? 0,
+      taxSetAside: parseMoney(setAside) ?? 0,
       note: note.trim(),
       ...(usdCents ? { foreignAmount: usdCents, foreignCurrency: 'USD' } : {}),
     }
@@ -263,7 +262,7 @@ function IncomeSheet({ taxYear, editing, onClose }: { taxYear: string; editing: 
 
       <Group footer={!dateOk ? <span className="text-red">{t.common.unsupportedYear}</span> : undefined}>
         <Field label={t.income.taxSetAside}>
-          <MoneyInput value={setAsideText} onChange={setSetAside} />
+          <MoneyInput value={setAside} onChange={setSetAside} />
         </Field>
         <Field label={t.common.date}>
           <TextInput type="date" value={entryDate} onChange={(e) => setEntryDate(e.target.value)} required />
