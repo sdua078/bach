@@ -1,0 +1,46 @@
+{
+  "taxYear": "2026-27",
+  "startDate": "2026-04-01",
+  "endDate": "2027-03-31",
+  "incomeTaxBrackets": [
+    { "upToCents": 1560000, "rate": 0.105 },
+    { "upToCents": 5350000, "rate": 0.175 },
+    { "upToCents": 7810000, "rate": 0.3 },
+    { "upToCents": 18000000, "rate": 0.33 },
+    { "upToCents": null, "rate": 0.39 }
+  ],
+  "ir3DueDate": "2027-07-07",
+  "terminalTaxDate": "2028-02-07",
+  "provisionalTax": {
+    "ritThresholdCents": 500000,
+    "standardUplift": 1.05,
+    "instalments": 3,
+    "safeHarbourRitLimitCents": 6000000
+  },
+  "acc": {
+    "earnersLevyRate": 0.0152,
+    "workingSaferLevyRate": 0.0008,
+    "defaultWorkLevyRate": 0.001,
+    "maxLiableEarningsCents": 15664100
+  },
+  "gstRate": 0.15,
+  "gstRegistrationThresholdCents": 6000000,
+  "lowValueAssetThresholdCents": 100000,
+  "entertainmentDeductibleShare": 0.5,
+  "recordKeepingYears": 7,
+  "defaultSetAsideRate": 0.35,
+  "sources": [
+    "https://www.ird.govt.nz/income-tax/income-tax-for-individuals/tax-codes-and-tax-rates-for-individuals/tax-rates-for-individuals",
+    "https://www.ird.govt.nz/income-tax/income-tax-for-individuals/what-happens-at-the-end-of-the-tax-year/individual-income-tax-return---ir3",
+    "https://www.ird.govt.nz/income-tax/provisional-tax",
+    "https://www.ird.govt.nz/income-tax/provisional-tax/provisional-tax-options/standard-option",
+    "https://www.ird.govt.nz/income-tax/provisional-tax/interest-on-provisional-tax",
+    "https://www.ird.govt.nz/income-tax/income-tax-for-individuals/acc-clients-and-carers/acc-earners-levy-rates",
+    "https://www.acc.co.nz/assets/business/Levy-Guidebook-2026-2027.pdf",
+    "https://www.ird.govt.nz/income-tax/income-tax-for-businesses-and-organisations/types-of-business-expenses/depreciation/claiming-depreciation",
+    "https://www.ird.govt.nz/income-tax/income-tax-for-businesses-and-organisations/types-of-business-expenses/claiming-vehicle-expenses",
+    "https://www.taxtechnical.ird.govt.nz/operational-statements/2026/os-19-04-km-2026",
+    "https://www.ird.govt.nz/managing-my-tax/overseas-currency-conversion-to-nz-dollars",
+    "https://www.taxtechnical.ird.govt.nz/interpretation-statements/is-1606-income-tax-timing-when-is-income-from-professional-services-derived"
+  ]
+}
