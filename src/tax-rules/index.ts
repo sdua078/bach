@@ -1,24 +1,24 @@
-import { z } from 'zod'
+import { z } from 'zod/mini'
 import nz202627 from './nz-2026-27.json'
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
-const rate = z.number().min(0).max(1)
-const cents = z.number().int().nonnegative()
+const isoDate = z.string().check(z.regex(/^\d{4}-\d{2}-\d{2}$/))
+const rate = z.number().check(z.minimum(0), z.maximum(1))
+const cents = z.int().check(z.nonnegative())
 
 export const taxRulesSchema = z.object({
-  taxYear: z.string().regex(/^\d{4}-\d{2}$/),
+  taxYear: z.string().check(z.regex(/^\d{4}-\d{2}$/)),
   startDate: isoDate,
   endDate: isoDate,
-  incomeTaxBrackets: z
-    .array(z.object({ upToCents: cents.nullable(), rate }))
-    .min(1)
-    .refine((b) => b.at(-1)?.upToCents === null, 'last bracket must be open-ended'),
+  incomeTaxBrackets: z.array(z.object({ upToCents: z.nullable(cents), rate })).check(
+    z.minLength(1),
+    z.refine((b) => b.at(-1)?.upToCents === null, 'last bracket must be open-ended'),
+  ),
   ir3DueDate: isoDate,
   terminalTaxDate: isoDate,
   provisionalTax: z.object({
     ritThresholdCents: cents,
-    standardUplift: z.number().positive(),
-    instalments: z.number().int().positive(),
+    standardUplift: z.number().check(z.positive()),
+    instalments: z.int().check(z.positive()),
     safeHarbourRitLimitCents: cents,
   }),
   acc: z.object({
@@ -31,9 +31,9 @@ export const taxRulesSchema = z.object({
   gstRegistrationThresholdCents: cents,
   lowValueAssetThresholdCents: cents,
   entertainmentDeductibleShare: rate,
-  recordKeepingYears: z.number().int().positive(),
+  recordKeepingYears: z.int().check(z.positive()),
   defaultSetAsideRate: rate,
-  sources: z.array(z.url()).min(1),
+  sources: z.array(z.url()).check(z.minLength(1)),
 })
 
 export type TaxRules = z.infer<typeof taxRulesSchema>

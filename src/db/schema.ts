@@ -1,8 +1,10 @@
-import { z } from 'zod'
+import { z } from 'zod/mini'
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
-const cents = z.number().int()
-const fraction = z.number().min(0).max(1)
+const isoDate = z.string().check(z.regex(/^\d{4}-\d{2}-\d{2}$/))
+const cents = z.int()
+const amount = z.int().check(z.nonnegative())
+const fraction = z.number().check(z.minimum(0), z.maximum(1))
+const nonneg = z.number().check(z.nonnegative())
 
 export const EXPENSE_CATEGORIES = [
   'equipment',
@@ -37,11 +39,11 @@ export const incomeSchema = z.object({
   taxYear: z.string(),
   date: isoDate,
   source: z.string(),
-  foreignAmount: cents.optional(),
-  foreignCurrency: z.string().optional(),
-  nzdReceived: cents.nonnegative(),
-  platformFees: cents.nonnegative(),
-  taxSetAside: cents.nonnegative(),
+  foreignAmount: z.optional(cents),
+  foreignCurrency: z.optional(z.string()),
+  nzdReceived: amount,
+  platformFees: amount,
+  taxSetAside: amount,
   note: z.string(),
 })
 export type Income = z.infer<typeof incomeSchema>
@@ -52,22 +54,22 @@ export const expenseSchema = z.object({
   date: isoDate,
   item: z.string(),
   category: z.enum(EXPENSE_CATEGORIES),
-  amount: cents.nonnegative(),
+  amount: amount,
   businessUse: fraction,
-  receiptId: z.string().optional(),
+  receiptId: z.optional(z.string()),
   note: z.string(),
 })
 export type Expense = z.infer<typeof expenseSchema>
 
 export const homeOfficeSchema = z.object({
   taxYear: z.string(),
-  weeklyRent: cents.nonnegative(),
-  weeksWorked: z.number().min(0).max(52),
-  totalArea: z.number().nonnegative(),
-  workspaceArea: z.number().nonnegative(),
+  weeklyRent: amount,
+  weeksWorked: z.number().check(z.minimum(0), z.maximum(52)),
+  totalArea: nonneg,
+  workspaceArea: nonneg,
   businessTimeShare: fraction,
-  utilitiesTotal: cents.nonnegative(),
-  internetTotal: cents.nonnegative(),
+  utilitiesTotal: amount,
+  internetTotal: amount,
   internetBusinessShare: fraction,
   rentShareBorne: fraction,
 })
@@ -77,7 +79,7 @@ export const assetSchema = z.object({
   id: z.string(),
   purchaseDate: isoDate,
   item: z.string(),
-  cost: cents.nonnegative(),
+  cost: amount,
   dvRate: fraction,
   businessUse: fraction,
   note: z.string(),
@@ -86,22 +88,22 @@ export type Asset = z.infer<typeof assetSchema>
 
 export const taxYearSchema = z.object({
   id: z.string(),
-  estimatedSalary: cents.nonnegative(),
+  estimatedSalary: amount,
   /** Actual PAYE withheld, from myIR. Overrides the estimate when set. */
-  payeWithheld: cents.nonnegative().optional(),
+  payeWithheld: z.optional(amount),
   /** ACC work levy rate from the user's own invoice. Overrides the rules default when set. */
-  workLevyRate: fraction.optional(),
+  workLevyRate: z.optional(fraction),
 })
 export type TaxYear = z.infer<typeof taxYearSchema>
 
 export const settingsSchema = z.object({
   id: z.literal('app'),
   /** Undefined = follow the system language. */
-  locale: z.enum(['en', 'zh']).optional(),
+  locale: z.optional(z.enum(['en', 'zh'])),
   disclaimerAccepted: z.boolean(),
   onboarded: z.boolean(),
-  lastExportAt: z.string().optional(),
-  recordsSinceExport: z.number().int().nonnegative(),
+  lastExportAt: z.optional(z.string()),
+  recordsSinceExport: amount,
   lastIncomeSource: z.string(),
   lastBusinessUse: z.partialRecord(z.enum(EXPENSE_CATEGORIES), fraction),
 })

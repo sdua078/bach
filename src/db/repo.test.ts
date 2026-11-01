@@ -11,6 +11,7 @@ import {
   InvalidBackupError,
   listExpenses,
   listIncomes,
+  markExported,
   parseBackup,
   restoreBackup,
   UnsupportedTaxYearError,
@@ -96,6 +97,8 @@ describe('backup', () => {
     await addExpense(expenseDraft)
     const backup = await exportBackup(new Date('2026-11-02T00:00:00Z'))
     expect(backup.formatVersion).toBe(1)
+    expect((await getSettings()).recordsSinceExport).toBe(2) // not marked until the file is saved
+    await markExported(backup)
     expect((await getSettings()).recordsSinceExport).toBe(0)
     expect((await getSettings()).lastExportAt).toBe('2026-11-02T00:00:00.000Z')
 

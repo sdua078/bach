@@ -15,8 +15,10 @@ import {
 } from './schema'
 
 export class UnsupportedTaxYearError extends Error {
-  constructor(readonly date: string) {
+  readonly date: string
+  constructor(date: string) {
     super(`No tax rules for the tax year containing ${date}`)
+    this.date = date
     this.name = 'UnsupportedTaxYearError'
   }
 }
@@ -138,30 +140,39 @@ export async function listAssets() {
 
 // ---------- backup ----------
 
+/** Snapshot of all data. Does not mark it as exported: call markExported() once the file is saved. */
 export async function exportBackup(now: Date = new Date()): Promise<Backup> {
   const exportedAt = now.toISOString()
-  return db.transaction('rw', db.tables, async () => {
-    const backup: Backup = {
-      app: 'bach',
-      formatVersion: BACKUP_FORMAT_VERSION,
-      exportedAt,
-      data: {
-        incomes: await db.incomes.toArray(),
-        expenses: await db.expenses.toArray(),
-        homeOffice: await db.homeOffice.toArray(),
-        assets: await db.assets.toArray(),
-        taxYears: await db.taxYears.toArray(),
-        settings: [{ ...(await getSettings()), lastExportAt: exportedAt, recordsSinceExport: 0 }],
-      },
-    }
-    await db.settings.put(backup.data.settings[0]!)
-    return backup
-  })
+  return db.transaction('r', db.tables, async () => ({
+    app: 'bach' as const,
+    formatVersion: BACKUP_FORMAT_VERSION,
+    exportedAt,
+    data: {
+      incomes: await db.incomes.toArray(),
+      expenses: await db.expenses.toArray(),
+      homeOffice: await db.homeOffice.toArray(),
+      assets: await db.assets.toArray(),
+      taxYears: await db.taxYears.toArray(),
+      // Stored as already-exported so a restore does not immediately nag for a backup.
+      settings: [{ ...(await getSettings()), lastExportAt: exportedAt, recordsSinceExport: 0 }],
+    },
+  }))
+}
+
+export async function markExported(backup: Backup): Promise<void> {
+  await updateSettings({ lastExportAt: backup.exportedAt, recordsSinceExport: 0 })
+}
+
+export async function hasAnyRecords(): Promise<boolean> {
+  const counts = await Promise.all([db.incomes.count(), db.expenses.count(), db.homeOffice.count()])
+  return counts.some((c) => c > 0)
 }
 
 export class InvalidBackupError extends Error {
-  constructor(readonly issues: string) {
+  readonly issues: string
+  constructor(issues: string) {
     super(`Invalid backup file: ${issues}`)
+    this.issues = issues
     this.name = 'InvalidBackupError'
   }
 }

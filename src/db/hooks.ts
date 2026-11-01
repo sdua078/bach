@@ -2,7 +2,10 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { computeSummary, type Summary, type SummaryInput } from '../calc'
 import { getRules } from '../tax-rules'
 import { getHomeOffice, getSettings, getTaxYear, listAssets, listExpenses, listIncomes } from './repo'
-import { DEFAULT_SETTINGS } from './schema'
+import { DEFAULT_SETTINGS, type Income } from './schema'
+
+/** Calculator input that keeps record ids, so a caller can leave one record out. */
+export type DbSummaryInput = Omit<SummaryInput, 'incomes'> & { incomes: Income[] }
 
 // Reactive reads: components re-render whenever the underlying tables change.
 
@@ -27,7 +30,7 @@ export function useHomeOffice(taxYear: string) {
 }
 
 /** Everything the calculator needs for one tax year, read from the database. */
-export async function loadSummaryInput(taxYear: string): Promise<SummaryInput | undefined> {
+export async function loadSummaryInput(taxYear: string): Promise<DbSummaryInput | undefined> {
   const rules = getRules(taxYear)
   if (!rules) return undefined
   const [year, incomes, expenses, homeOffice, assets] = await Promise.all([
