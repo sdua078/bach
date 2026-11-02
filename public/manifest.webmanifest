@@ -1,7 +1,7 @@
 {
   "name": "Bach",
   "short_name": "Bach",
-  "description": "Set aside the right tax on your NZ side income.",
+  "description": "Set aside the right tax on your NZ self-employed income.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

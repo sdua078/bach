@@ -4,7 +4,7 @@
 
 > **Estimates only — not tax advice.** Bach is not affiliated with or endorsed by Inland Revenue (IRD) or ACC. Figures are estimates to help you set money aside; IRD's own calculation is what counts. It does not include tax credits, student loan, Working for Families or other adjustments. Use at your own risk.
 
-Bach is a free, open-source, local-first tool for people in New Zealand with a **PAYE salary plus self-employed (sole trader) side income**. Each time a side payment lands, it tells you how much to move to your tax account; at year end it gives you the numbers for your IR3.
+Bach is a free, open-source, local-first tool for people in New Zealand with a **PAYE salary plus self-employed (sole trader) income**. Each time a payment lands, it tells you how much to move to your tax account; at year end it gives you the numbers for your IR3.
 
 
 ## Use it
@@ -20,7 +20,7 @@ Nothing to download, no account. It runs in your browser on a computer or phone.
    - iPhone: Share → Add to Home Screen
 3. **Record as you go.**
    - *Income*: type the NZD that landed and press Enter. Bach shows how much to move to your tax account; record what you actually moved.
-   - *Expenses*: item, category, amount and how much of it was for side work.
+   - *Expenses*: item, category, amount and how much of it was for business.
    - *Home office*: fill in rent, floor area and bills once.
 4. **Check Summary** for how much is still to set aside.
 5. **Export a backup** from Settings every month or so, and keep it in iCloud / Google Drive.
