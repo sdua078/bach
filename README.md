@@ -6,13 +6,41 @@
 
 Bach is a free, open-source, local-first tool for people in New Zealand with a **PAYE salary plus self-employed (sole trader) side income**. Each time a side payment lands, it tells you how much to move to your tax account; at year end it gives you the numbers for your IR3.
 
+*A bach (say "batch") is a Kiwi holiday hut. Get the admin done, then go to the bach.*
 
-## Privacy
+## Use it
 
-- No account, no server, no bank connection.
-- Everything is stored in your browser (IndexedDB) on your device. Nothing is uploaded.
-- Back up by exporting a JSON file (Settings → Export backup) to iCloud / Google Drive.
-- On iPhone, **add Bach to your Home Screen**; Safari may clear website data that hasn't been used for a while.
+**👉 [sdua078.github.io/bach](https://sdua078.github.io/bach/)**
+
+Nothing to download, no account. It runs in your browser on a computer or phone.
+
+1. **Open the link.** Read the note, enter your expected yearly salary.
+2. **Install it as an app** (recommended — keeps your data safe):
+   - Chrome / Edge: click the install icon in the address bar
+   - Safari on Mac: File → Add to Dock
+   - iPhone: Share → Add to Home Screen
+3. **Record as you go.**
+   - *Income*: type the NZD that landed and press Enter. Bach shows how much to move to your tax account; record what you actually moved.
+   - *Expenses*: item, category, amount and how much of it was for side work.
+   - *Home office*: fill in rent, floor area and bills once.
+4. **Check Summary** for how much is still to set aside.
+5. **Export a backup** from Settings every month or so, and keep it in iCloud / Google Drive.
+
+### 中文使用说明
+
+打开 **[sdua078.github.io/bach](https://sdua078.github.io/bach/)** 就能用，不用下载，也不用注册。电脑和手机都可以。
+
+1. **打开网址**，读完说明后填预计年薪。
+2. **装成 app**（推荐，数据更安全）：Chrome / Edge 点地址栏的安装图标；Mac 上的 Safari 选 文件 → 添加到程序坞；iPhone 选 分享 → 添加到主屏幕。
+3. **记账**：在收入页输入到账纽币，按回车；Bach 会提示该存多少税，"已存税"填你实际转了多少。开支页填项目、类别、金额和副业使用比例。家庭办公只需要填一次。
+4. **看汇总页**，了解还要存多少。
+5. **定期导出备份**（设置 → 导出备份），存到 iCloud 或 Google Drive。
+
+## Your data
+
+- Stored only in your browser on your device. No server, no bank connection, nothing uploaded.
+- Each browser on each device has its own separate data. To move to another device, export a backup and import it there (Settings → Import backup). Importing replaces everything on that device.
+- Safari can clear website data that hasn't been used for a while — install Bach as an app and keep backups.
 
 ## What it does (v0.1)
 
@@ -20,11 +48,13 @@ Bach is a free, open-source, local-first tool for people in New Zealand with a *
 - Home office deduction (rent, power & gas, internet)
 - Extra income tax on top of PAYE, ACC levy estimate, how much is still to set aside
 - Provisional tax heads-up when residual income tax goes over the threshold
-- English and 简体中文
+- English and 简体中文, light and dark mode, desktop and phone layouts
 
-## Development
+---
 
-Requires Node 22+ and pnpm.
+## For developers
+
+Only needed if you want to change the code. Requires Node 22+ and pnpm.
 
 ```sh
 pnpm install
@@ -32,8 +62,6 @@ pnpm dev        # http://localhost:5173
 pnpm test       # unit tests (calculations + data layer)
 pnpm build
 ```
-
-Project layout:
 
 | Path | What |
 |---|---|
@@ -56,4 +84,4 @@ Pushing to `main` runs tests, builds with `BACH_BASE=/<repo>/` and publishes to 
 
 ## Licence
 
-[MIT](LICENSE)
+[GNU AGPL-3.0](LICENSE). You're free to use, study, change and share Bach. If you distribute a modified version, or run one as a service for others, you must release your full source code under the same licence.
