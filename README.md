@@ -6,7 +6,6 @@
 
 Bach is a free, open-source, local-first tool for people in New Zealand with a **PAYE salary plus self-employed (sole trader) side income**. Each time a side payment lands, it tells you how much to move to your tax account; at year end it gives you the numbers for your IR3.
 
-*A bach (say "batch") is a Kiwi holiday hut. Get the admin done, then go to the bach.*
 
 ## Use it
 
