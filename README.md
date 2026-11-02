@@ -1,8 +1,8 @@
 # Bach
 
+**English** | [简体中文](README.zh-CN.md)
+
 > **Estimates only — not tax advice.** Bach is not affiliated with or endorsed by Inland Revenue (IRD) or ACC. Figures are estimates to help you set money aside; IRD's own calculation is what counts. It does not include tax credits, student loan, Working for Families or other adjustments. Use at your own risk.
->
-> **仅为估算，不构成税务建议。** Bach 与新西兰税务局（IRD）和 ACC 无关。结果仅供参考，以 IRD 实际计算为准。
 
 Bach is a free, open-source, local-first tool for people in New Zealand with a **PAYE salary plus self-employed (sole trader) side income**. Each time a side payment lands, it tells you how much to move to your tax account; at year end it gives you the numbers for your IR3.
 
@@ -26,16 +26,6 @@ Nothing to download, no account. It runs in your browser on a computer or phone.
 4. **Check Summary** for how much is still to set aside.
 5. **Export a backup** from Settings every month or so, and keep it in iCloud / Google Drive.
 
-### 中文使用说明
-
-打开 **[sdua078.github.io/bach](https://sdua078.github.io/bach/)** 就能用，不用下载，也不用注册。电脑和手机都可以。
-
-1. **打开网址**，读完说明后填预计年薪。
-2. **装成 app**（推荐，数据更安全）：Chrome / Edge 点地址栏的安装图标；Mac 上的 Safari 选 文件 → 添加到程序坞；iPhone 选 分享 → 添加到主屏幕。
-3. **记账**：在收入页输入到账纽币，按回车；Bach 会提示该存多少税，"已存税"填你实际转了多少。开支页填项目、类别、金额和副业使用比例。家庭办公只需要填一次。
-4. **看汇总页**，了解还要存多少。
-5. **定期导出备份**（设置 → 导出备份），存到 iCloud 或 Google Drive。
-
 ## Your data
 
 - Stored only in your browser on your device. No server, no bank connection, nothing uploaded.
@@ -48,7 +38,7 @@ Nothing to download, no account. It runs in your browser on a computer or phone.
 - Home office deduction (rent, power & gas, internet)
 - Extra income tax on top of PAYE, ACC levy estimate, how much is still to set aside
 - Provisional tax heads-up when residual income tax goes over the threshold
-- English and 简体中文, light and dark mode, desktop and phone layouts
+- English and Simplified Chinese, light and dark mode, desktop and phone layouts
 
 ---
 
